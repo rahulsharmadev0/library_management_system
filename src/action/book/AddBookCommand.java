@@ -1,7 +1,7 @@
-package action;
+package action.book;
 
-import controller.BooksController;
 import model.Book;
+import service.BookService;
 import command.ActionCommand;
 
 public class AddBookCommand extends ActionCommand {
@@ -43,8 +43,7 @@ public class AddBookCommand extends ActionCommand {
         }
         
         Book newBook = new Book(title, author, isbn, pages);
-        BooksController.getInstance().addBook(newBook);
-        
+        BookService.instance.addBook(newBook);
         showMessage("Book '" + title + "' has been successfully added to the library!", false);
     }
 }

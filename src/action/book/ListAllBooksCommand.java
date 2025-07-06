@@ -1,7 +1,7 @@
-package action;
+package action.book;
 
-import controller.BooksController;
 import model.Book;
+import service.BookService;
 import command.ActionCommand;
 
 import java.util.List;
@@ -12,8 +12,7 @@ public class ListAllBooksCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("ALL BOOKS IN LIBRARY");
         
-        BooksController controller = BooksController.getInstance();
-        List<Book> books = controller.getBooks();
+        List<Book> books = BookService.instance.getBooks();
         
         if (books.isEmpty()) {
             System.out.println("📚 No books found in the library.");

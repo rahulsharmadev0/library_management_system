@@ -11,4 +11,11 @@ public enum AppRouteName {
     PlaceHolderCommand,
     AddBookCommand,
     ListAllBooksCommand,
+    DeleteBookCommand,
+    UpdateBookCommand,
+    RegisterNewMemberCommand,
+    ListAllMembersCommand,
+    UpdateMemberCommand,
+    DeleteMemberCommand,
+    SearchMemberCommandByEmail, SearchMemberCommandById, SearchMemberCommandByName, SearchMemberCommandByPhone
 }
