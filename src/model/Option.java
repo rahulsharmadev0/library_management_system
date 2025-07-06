@@ -1,6 +1,6 @@
 package model;
 
-import routes.AppRouteName;
+import routes.AppRoute;
 
-public record Option(String title, String description, AppRouteName routeName) {
+public record Option(String title, String description, AppRoute routeName) {
 }

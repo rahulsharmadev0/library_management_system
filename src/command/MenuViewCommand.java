@@ -47,16 +47,19 @@ public abstract class MenuViewCommand extends ActionCommand {
                 return;
             }
 
+            
+
             // Handle regular menu options
             if (choice <= options.length) {
-                Command selectedCommand = AppRoute.get(options[choice - 1].routeName());
+                AppRoute selectedCommand = options[choice - 1].routeName();
 
                 // If it's a menu, navigate to it; if it's an action, execute it and stay in
                 // current menu
-                if (selectedCommand instanceof MenuViewCommand) {
+                if (selectedCommand.get() instanceof MenuViewCommand) {
                     navigator.navigateTo(selectedCommand);
                 } else {
-                    selectedCommand.execute();
+                    // TODO: Here it call Command 
+                    selectedCommand.get().execute();
                     // After action execution, re-execute current menu
                     execute();
                 }

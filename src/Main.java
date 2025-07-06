@@ -1,6 +1,5 @@
 import controller.Navigator;
 import routes.AppRoute;
-import routes.AppRouteName;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +11,7 @@ public class Main {
             
             Navigator navigator = Navigator.getNavigator();
 
-            navigator.start(AppRoute.get(AppRouteName.MainMenu));
+            navigator.start(AppRoute.MainMenu);
 
         } catch (Exception e) {
             System.err.println("❌ Failed to start application: " + e.getMessage());

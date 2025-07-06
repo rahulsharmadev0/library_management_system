@@ -1,3 +1,7 @@
+// TODO: 
+    - Create a generic table formatter to eliminate table creation duplication.
+    - Create a generic service base class
+
 Library Management System
 ## Book Inventory Management
 * Add a new book
@@ -24,3 +28,5 @@ NEED
 3. CLI Rendering Service (State)
 4. CLI command listener service (Events)
 5. CLI executor, (Controller/Logic) who can change state
+
+

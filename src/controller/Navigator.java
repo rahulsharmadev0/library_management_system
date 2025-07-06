@@ -3,9 +3,10 @@ package controller;
 import java.util.Stack;
 
 import command.Command;
+import routes.AppRoute;
 
 public class Navigator {
-    private Stack<Command> navigationStack = new Stack<>();
+    private Stack<AppRoute> navigationStack = new Stack<>();
     private static Navigator navigator = null;
     private boolean isRunning = true;
 
@@ -22,8 +23,8 @@ public class Navigator {
     /**
      * Navigate to a new command/menu
      */
-    public void navigateTo(Command command) {
-        navigationStack.push(command);
+    public void navigateTo(AppRoute route) {
+        navigationStack.push(route);
     }
 
     /**
@@ -43,7 +44,7 @@ public class Navigator {
     /**
      * Get the current command without removing it from stack
      */
-    public Command getCurrentCommand() {
+    public AppRoute getCurrentRoute() {
         if (navigationStack.isEmpty()) {
             return null;
         }
@@ -76,12 +77,12 @@ public class Navigator {
     /**
      * Start the navigation system
      */
-    public void start(Command initialCommand) {
-        navigateTo(initialCommand);
+    public void start(AppRoute initalRoute) {
+        navigateTo(initalRoute);
         
         while (isRunning && !navigationStack.isEmpty()) {
             try {
-                Command currentCommand = getCurrentCommand();
+                Command currentCommand = getCurrentRoute().get();
                 if (currentCommand != null) {
                     currentCommand.execute();
                     // After execution, if it's not a menu, we need to go back

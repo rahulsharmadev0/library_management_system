@@ -1,58 +1,51 @@
 package routes;
 
 import model.Option;
-import java.util.Map;
 import java.util.function.Supplier;
-import action.book.AddBookCommand;
-import action.book.DeleteBookCommand;
-import action.book.ListAllBooksCommand;
-import action.book.PlaceHolderCommand;
-import action.book.UpdateBookCommand;
-import action.member.RegisterNewMemberCommand;
-import action.member.ListAllMembersCommand;
-import action.member.UpdateMemberCommand;
-import action.member.DeleteMemberCommand;
-import action.member.SearchMemberCommand;
+import action.book.*;
+import action.member.*;
 import command.Command;
 import command.MenuViewCommand;
 
-public class AppRoute {
-    private static final Map<AppRouteName, Supplier<Command>> ROUTE_MAP = Map.ofEntries(
-            Map.entry(AppRouteName.BookIssuingMenu, BookIssuingMenu::new),
-            Map.entry(AppRouteName.MainMenu, MainMenu::new),
-            Map.entry(AppRouteName.BookInventoryMenu, BookInventoryMenu::new),
-            Map.entry(AppRouteName.MemberManagementMenu, MemberManagementMenu::new),
-            Map.entry(AppRouteName.SearchBookMenu, SearchBookMenu::new),
-            Map.entry(AppRouteName.SearchMemberMenu, SearchMemberMenu::new),
-            Map.entry(AppRouteName.SortBookMenu, SortBookMenu::new),
-            Map.entry(AppRouteName.PlaceHolderCommand, PlaceHolderCommand::new),
-            Map.entry(AppRouteName.ListAllBooksCommand, ListAllBooksCommand::new),
-            Map.entry(AppRouteName.AddBookCommand, AddBookCommand::new),
-            Map.entry(AppRouteName.DeleteBookCommand, DeleteBookCommand::new),
-            Map.entry(AppRouteName.UpdateBookCommand, UpdateBookCommand::new),
-            Map.entry(AppRouteName.RegisterNewMemberCommand, RegisterNewMemberCommand::new),
-            Map.entry(AppRouteName.ListAllMembersCommand, ListAllMembersCommand::new),
-            Map.entry(AppRouteName.UpdateMemberCommand, UpdateMemberCommand::new),
-            Map.entry(AppRouteName.DeleteMemberCommand, DeleteMemberCommand::new),
+public enum AppRoute {
+    BookIssuingMenu(BookIssuingMenu::new),
+    MainMenu(MainMenu::new),
+    BookInventoryMenu(BookInventoryMenu::new),
+    MemberManagementMenu(MemberManagementMenu::new),
+    SearchBookMenu(SearchBookMenu::new),
+    SearchMemberMenu(SearchMemberMenu::new),
+    SortBookMenu(SortBookMenu::new),
+    PlaceHolderCommand(PlaceHolderCommand::new),
+    AddBookCommand(AddBookCommand::new),
+    ListAllBooksCommand(ListAllBooksCommand::new),
+    DeleteBookCommand(DeleteBookCommand::new),
+    UpdateBookCommand(UpdateBookCommand::new),
+    RegisterNewMemberCommand(RegisterNewMemberCommand::new),
+    ListAllMembersCommand(ListAllMembersCommand::new),
+    UpdateMemberCommand(UpdateMemberCommand::new),
+    DeleteMemberCommand(DeleteMemberCommand::new),
+    SearchMemberCommandByEmail(SearchMemberCommand.ByEmail::new),
+    SearchMemberCommandById(SearchMemberCommand.ById::new),
+    SearchMemberCommandByName(SearchMemberCommand.ByName::new),
+    SearchMemberCommandByPhone(SearchMemberCommand.ByPhone::new);
 
-            Map.entry(AppRouteName.SearchMemberCommandByEmail, SearchMemberCommand.ByEmail::new),
-            Map.entry(AppRouteName.SearchMemberCommandById, SearchMemberCommand.ById::new),
-            Map.entry(AppRouteName.SearchMemberCommandByName, SearchMemberCommand.ByName::new),
-            Map.entry(AppRouteName.SearchMemberCommandByPhone, SearchMemberCommand.ByPhone::new)
+    protected final Supplier<Command> comSupplier;
 
-    );
+    AppRoute(Supplier<Command> comSupplier){
+        this.comSupplier = comSupplier;
+    }
 
-    public static Command get(AppRouteName menu) {
-        return ROUTE_MAP.get(menu).get();
+    public Command get() {
+        return this.comSupplier.get();
     }
 
 }
 
 class MainMenu extends MenuViewCommand {
     private static final Option[] MAIN_OPTIONS = {
-            new Option("Book Inventory Management", "", AppRouteName.BookInventoryMenu),
-            new Option("Member Management", "", AppRouteName.MemberManagementMenu),
-            new Option("Book Issuing & Returning", "", AppRouteName.BookIssuingMenu),
+            new Option("Book Inventory Management", "", AppRoute.BookInventoryMenu),
+            new Option("Member Management", "", AppRoute.MemberManagementMenu),
+            new Option("Book Issuing & Returning", "", AppRoute.BookIssuingMenu),
     };
 
     public MainMenu() {
@@ -62,12 +55,12 @@ class MainMenu extends MenuViewCommand {
 
 class BookInventoryMenu extends MenuViewCommand {
     private static final Option[] BOOK_OPTIONS = {
-            new Option("Add New Book", "", AppRouteName.AddBookCommand),
-            new Option("Delete Book", "", AppRouteName.DeleteBookCommand),
-            new Option("Update Book Details", "", AppRouteName.UpdateBookCommand),
-            new Option("Search Book", "", AppRouteName.SearchBookMenu),
-            new Option("List All Books", "", AppRouteName.ListAllBooksCommand),
-            new Option("Sort Books", "", AppRouteName.SortBookMenu),
+            new Option("Add New Book", "", AppRoute.AddBookCommand),
+            new Option("Delete Book", "", AppRoute.DeleteBookCommand),
+            new Option("Update Book Details", "", AppRoute.UpdateBookCommand),
+            new Option("Search Book", "", AppRoute.SearchBookMenu),
+            new Option("List All Books", "", AppRoute.ListAllBooksCommand),
+            new Option("Sort Books", "", AppRoute.SortBookMenu),
     };
 
     public BookInventoryMenu() {
@@ -78,10 +71,10 @@ class BookInventoryMenu extends MenuViewCommand {
 
 class BookIssuingMenu extends MenuViewCommand {
     private static final Option[] ISSUING_OPTIONS = {
-            new Option("Issue Book to Member", "Lend a book to a library member", AppRouteName.PlaceHolderCommand),
-            new Option("Return Book", "Process book return from member", AppRouteName.PlaceHolderCommand),
-            new Option("View Issued Books", "See all currently issued books", AppRouteName.PlaceHolderCommand),
-            new Option("Overdue Books Report", "View books that are overdue", AppRouteName.PlaceHolderCommand),
+            new Option("Issue Book to Member", "Lend a book to a library member", AppRoute.PlaceHolderCommand),
+            new Option("Return Book", "Process book return from member", AppRoute.PlaceHolderCommand),
+            new Option("View Issued Books", "See all currently issued books", AppRoute.PlaceHolderCommand),
+            new Option("Overdue Books Report", "View books that are overdue", AppRoute.PlaceHolderCommand),
     };
 
     public BookIssuingMenu() {
@@ -91,11 +84,11 @@ class BookIssuingMenu extends MenuViewCommand {
 
 class MemberManagementMenu extends MenuViewCommand {
     private static final Option[] MEMBER_OPTIONS = {
-            new Option("Register New Member", "", AppRouteName.RegisterNewMemberCommand),
-            new Option("Update Member Info", "", AppRouteName.UpdateMemberCommand),
-            new Option("Delete Member", "", AppRouteName.DeleteMemberCommand),
-            new Option("Search Member", "", AppRouteName.SearchMemberMenu),
-            new Option("List All Members", "", AppRouteName.ListAllMembersCommand),
+            new Option("Register New Member", "", AppRoute.RegisterNewMemberCommand),
+            new Option("Update Member Info", "", AppRoute.UpdateMemberCommand),
+            new Option("Delete Member", "", AppRoute.DeleteMemberCommand),
+            new Option("Search Member", "", AppRoute.SearchMemberMenu),
+            new Option("List All Members", "", AppRoute.ListAllMembersCommand),
     };
 
     public MemberManagementMenu() {
@@ -106,10 +99,10 @@ class MemberManagementMenu extends MenuViewCommand {
 
 class SortBookMenu extends MenuViewCommand {
     private static final Option[] SORT_OPTIONS = {
-            new Option("Sort by Title (A-Z)", "Sort books alphabetically by title", AppRouteName.PlaceHolderCommand),
-            new Option("Sort by Author (A-Z)", "Sort books alphabetically by author", AppRouteName.PlaceHolderCommand),
-            new Option("Sort by ISBN", "Sort books by ISBN number", AppRouteName.PlaceHolderCommand),
-            new Option("Sort by Pages", "Sort books by number of pages", AppRouteName.PlaceHolderCommand),
+            new Option("Sort by Title (A-Z)", "Sort books alphabetically by title", AppRoute.PlaceHolderCommand),
+            new Option("Sort by Author (A-Z)", "Sort books alphabetically by author", AppRoute.PlaceHolderCommand),
+            new Option("Sort by ISBN", "Sort books by ISBN number", AppRoute.PlaceHolderCommand),
+            new Option("Sort by Pages", "Sort books by number of pages", AppRoute.PlaceHolderCommand),
     };
 
     public SortBookMenu() {
@@ -119,10 +112,10 @@ class SortBookMenu extends MenuViewCommand {
 
 class SearchMemberMenu extends MenuViewCommand {
     private static final Option[] SEARCH_OPTIONS = {
-            new Option("Search by Member ID", "Find member by ID number", AppRouteName.SearchMemberCommandById),
-            new Option("Search by Name", "Find members by name", AppRouteName.SearchMemberCommandByName),
-            new Option("Search by Email", "Find member by email address", AppRouteName.SearchMemberCommandByEmail),
-            new Option("Search by Phone", "Find member by phone number", AppRouteName.SearchMemberCommandByPhone),
+            new Option("Search by Member ID", "Find member by ID number", AppRoute.SearchMemberCommandById),
+            new Option("Search by Name", "Find members by name", AppRoute.SearchMemberCommandByName),
+            new Option("Search by Email", "Find member by email address", AppRoute.SearchMemberCommandByEmail),
+            new Option("Search by Phone", "Find member by phone number", AppRoute.SearchMemberCommandByPhone),
     };
 
     public SearchMemberMenu() {
@@ -132,10 +125,10 @@ class SearchMemberMenu extends MenuViewCommand {
 
 class SearchBookMenu extends MenuViewCommand {
     private static final Option[] SEARCH_OPTIONS = {
-            new Option("Search by Title", "Find books by title", AppRouteName.PlaceHolderCommand),
-            new Option("Search by Author", "Find books by author name", AppRouteName.PlaceHolderCommand),
-            new Option("Search by ISBN", "Find books by ISBN number", AppRouteName.PlaceHolderCommand),
-            new Option("Advanced Search", "Search by multiple criteria", AppRouteName.PlaceHolderCommand),
+            new Option("Search by Title", "Find books by title", AppRoute.PlaceHolderCommand),
+            new Option("Search by Author", "Find books by author name", AppRoute.PlaceHolderCommand),
+            new Option("Search by ISBN", "Find books by ISBN number", AppRoute.PlaceHolderCommand),
+            new Option("Advanced Search", "Search by multiple criteria", AppRoute.PlaceHolderCommand),
     };
 
     public SearchBookMenu() {
