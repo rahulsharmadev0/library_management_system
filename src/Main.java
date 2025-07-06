@@ -1,6 +1,6 @@
 import controller.Navigator;
-import view.menu.LMSApp;
-import view.menu.AppRoute;
+import routes.AppRoute;
+import routes.AppRouteName;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class Main {
             
             Navigator navigator = Navigator.getNavigator();
 
-            navigator.start(LMSApp.getMenu(AppRoute.MainMenu));
+            navigator.start(AppRoute.get(AppRouteName.MainMenu));
 
         } catch (Exception e) {
             System.err.println("❌ Failed to start application: " + e.getMessage());

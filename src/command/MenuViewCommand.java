@@ -1,25 +1,21 @@
-package view;
+package command;
 
 import controller.Navigator;
 import model.Option;
-import view.menu.*;
+import routes.*;
 
 import java.util.Scanner;
 
-public abstract class Menu extends ActionCommand {
+public abstract class MenuViewCommand extends ActionCommand {
     protected final Scanner scanner;
     protected final String title;
     protected final Option[] options;
 
-    public Menu(String title, Option[] options) {
+    public MenuViewCommand(String title, Option[] options) {
         this.title = title;
         this.options = options;
         this.scanner = new Scanner(System.in);
     }
-
-
-
-
 
     protected void showMessage(String message, boolean isError) {
         String icon = isError ? "❌" : "✅";
@@ -27,13 +23,11 @@ public abstract class Menu extends ActionCommand {
         waitForEnter();
     }
 
-
     @Override
     public void performAction() throws Exception {
         displayHeader(title);
         displayMenuOptions();
-        
-        
+
         try {
             String input = super.getInput();
 
@@ -41,24 +35,25 @@ public abstract class Menu extends ActionCommand {
                 showMessage("Please enter a valid choice", true);
                 return;
             }
-            
+
             int choice = Integer.parseInt(input);
             Navigator navigator = Navigator.getNavigator();
-            
+
             // Calculate total options including navigation
             int totalOptions = options.length + (navigator.isAtRoot() ? 1 : 2);
-            
+
             if (choice < 1 || choice > totalOptions) {
                 showMessage("Invalid choice. Please select between 1 and " + totalOptions, true);
                 return;
             }
-            
+
             // Handle regular menu options
             if (choice <= options.length) {
-                Command selectedCommand = LMSApp.getMenu(options[choice - 1].command());
-                
-                // If it's a menu, navigate to it; if it's an action, execute it and stay in current menu
-                if (selectedCommand instanceof Menu) {
+                Command selectedCommand = AppRoute.get(options[choice - 1].routeName());
+
+                // If it's a menu, navigate to it; if it's an action, execute it and stay in
+                // current menu
+                if (selectedCommand instanceof MenuViewCommand) {
                     navigator.navigateTo(selectedCommand);
                 } else {
                     selectedCommand.execute();
@@ -67,10 +62,10 @@ public abstract class Menu extends ActionCommand {
                 }
                 return;
             }
-            
+
             // Handle navigation options
             choice -= options.length;
-            
+
             if (!navigator.isAtRoot() && choice == 1) {
                 // Go Back
                 navigator.goBack();
@@ -78,7 +73,7 @@ public abstract class Menu extends ActionCommand {
                 // Exit
                 navigator.exit();
             }
-            
+
         } catch (NumberFormatException e) {
             showMessage("Please enter a valid number", true);
             execute(); // Re-show menu
@@ -88,19 +83,15 @@ public abstract class Menu extends ActionCommand {
         }
     }
 
-
-
-
-
     private void displayMenuOptions() {
-        int i=0;
-        while (i<options.length)
-            System.out.println( i+1 + ". " + options[i++].title());
-        
-         if ( !Navigator.getNavigator().isAtRoot()) {
+        int i = 0;
+        while (i < options.length)
+            System.out.println(i + 1 + ". " + options[i++].title());
+
+        if (!Navigator.getNavigator().isAtRoot()) {
             System.out.println(++i + "🔙 Go Back");
-        
-         System.out.println( ++i +"🚪 Exit");
+
+            System.out.println(++i + "🚪 Exit");
         }
     }
 }

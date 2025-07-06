@@ -1,8 +1,8 @@
 package controller;
 
-import view.Command;
-
 import java.util.Stack;
+
+import command.Command;
 
 public class Navigator {
     private Stack<Command> navigationStack = new Stack<>();
@@ -86,7 +86,7 @@ public class Navigator {
                     currentCommand.execute();
                     // After execution, if it's not a menu, we need to go back
                     // Menus handle their own navigation, actions need to go back
-                    if (!(currentCommand instanceof view.Menu)) {
+                    if (!(currentCommand instanceof command.MenuViewCommand)) {
                         goBack();
                     }
                 } else {

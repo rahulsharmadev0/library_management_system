@@ -1,14 +1,12 @@
-package view.action;
+package action;
 
 import controller.BooksController;
 import model.Book;
-import view.ActionCommand;
+import command.ActionCommand;
 
 import java.util.List;
 
 public class ListAllBooksCommand extends ActionCommand {
-
-  
 
     @Override
     protected void performAction() throws Exception {

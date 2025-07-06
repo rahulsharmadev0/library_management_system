@@ -1,8 +1,8 @@
-package view.action;
+package action;
 
 import controller.BooksController;
 import model.Book;
-import view.ActionCommand;
+import command.ActionCommand;
 
 public class AddBookCommand extends ActionCommand {
 

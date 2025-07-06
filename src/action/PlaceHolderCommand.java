@@ -1,6 +1,6 @@
-package view.action;
+package action;
 
-import view.ActionCommand;
+import command.ActionCommand;
 
 public class PlaceHolderCommand extends ActionCommand {
     

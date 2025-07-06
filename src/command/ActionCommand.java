@@ -1,4 +1,4 @@
-package view;
+package command;
 import java.util.Scanner;
 
 
@@ -31,7 +31,6 @@ public abstract class ActionCommand implements Command {
         System.out.println(border);
     }
     
-
     private String centerText(String text, int width) {
         if (text.length() >= width) return text;
         int padding = (width - text.length()) / 2;
@@ -46,7 +45,6 @@ public abstract class ActionCommand implements Command {
     protected String getInput() {
        return getInput("Enter your choice");
     }
-
 
     protected boolean confirmAction(String message) {
         System.out.print("⚠️  " + message + " (y/N): ");

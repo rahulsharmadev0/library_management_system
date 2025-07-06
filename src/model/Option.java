@@ -1,7 +1,6 @@
 package model;
 
-import view.Command;
-import view.menu.AppRoute;
+import routes.AppRouteName;
 
-public record Option(String title, String description, AppRoute command) {
+public record Option(String title, String description, AppRouteName routeName) {
 }
