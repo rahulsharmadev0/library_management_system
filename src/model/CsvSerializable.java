@@ -1,4 +1,7 @@
 package model;
 
-public interface CsvConversion {
+
+public interface CsvSerializable {
+    public String toCsv();
 }
+

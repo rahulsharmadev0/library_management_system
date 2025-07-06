@@ -1,10 +1,8 @@
 package view;
 
-interface Render{
-    void build();
-}
 
 
+@FunctionalInterface
 public interface Command {
-    void execute();
+    void execute() throws Exception;
 }
