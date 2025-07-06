@@ -43,7 +43,7 @@ public class AddBookCommand extends ActionCommand {
         }
         
         Book newBook = new Book(title, author, isbn, pages);
-        BookService.instance.addBook(newBook);
+        BookService.instance.add(newBook);
         showMessage("Book '" + title + "' has been successfully added to the library!", false);
     }
 }

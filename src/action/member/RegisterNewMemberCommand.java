@@ -17,7 +17,7 @@ public class RegisterNewMemberCommand extends ActionCommand {
         }
         
         // Check if member ID already exists
-        if (MemberService.instance.memberExists(id)) {
+        if (MemberService.instance.findBy(s->s.id().equals(id)).isPresent()) {
             showMessage("Member with ID '" + id + "' already exists!", true);
             return;
         }
@@ -47,7 +47,7 @@ public class RegisterNewMemberCommand extends ActionCommand {
         }
 
         Member newMember = new Member(id, name, email, phone);
-        MemberService.instance.addMember(newMember);
+        MemberService.instance.add(newMember);
         showMessage("Member '" + name + "' has been successfully registered!", false);
     }
     

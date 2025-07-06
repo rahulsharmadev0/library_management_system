@@ -13,7 +13,7 @@ public class DeleteMemberCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("DELETE MEMBER");
         
-        List<Member> members = MemberService.instance.getMembers();
+        List<Member> members = MemberService.instance.getAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");
@@ -46,7 +46,7 @@ public class DeleteMemberCommand extends ActionCommand {
             boolean confirmation = confirmAction("Are you sure you want to delete member " + memberToDelete.name());
             
             if (confirmation) {
-                Member deletedMember = MemberService.instance.removeMember(index);
+                Member deletedMember = MemberService.instance.remove(index);
                 showMessage("Member '" + deletedMember.name() + "' has been successfully deleted from the library!", false);
             } else {
                 showMessage("Delete operation cancelled.", false);

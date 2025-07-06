@@ -14,7 +14,7 @@ public class ListAllMembersCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("ALL MEMBERS IN LIBRARY");
         
-        List<Member> members = MemberService.instance.getMembers();
+        List<Member> members = MemberService.instance.getAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");

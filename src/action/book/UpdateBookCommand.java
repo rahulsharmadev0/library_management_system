@@ -19,10 +19,7 @@ public class UpdateBookCommand extends ActionCommand {
         }
 
         System.out.println("Searching for book...");
-        Optional<Book> bookOptional = BookService.instance.getBooks().stream()
-            .filter(s -> s.isbn().equals(isbn))
-            .findAny();
-
+        Optional<Book> bookOptional = BookService.instance.findBy(s -> s.isbn().equals(isbn));
         if (bookOptional.isPresent()) {
             Book book = bookOptional.get();
             displayBookDetails(book);
@@ -54,7 +51,7 @@ public class UpdateBookCommand extends ActionCommand {
             !page.trim().isEmpty() ? page : book.pages()
         );
 
-        BookService.instance.updateBook(updatedBook);
+        BookService.instance.update(updatedBook, (s)->s.isbn().equals(updatedBook.isbn()));
         System.out.println("✅ Book updated successfully!");
     }
 }

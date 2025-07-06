@@ -12,7 +12,7 @@ public class UpdateMemberCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("UPDATE MEMBER INFORMATION");
         
-        List<Member> members = MemberService.instance.getMembers();
+        List<Member> members = MemberService.instance.getAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");
@@ -65,7 +65,7 @@ public class UpdateMemberCommand extends ActionCommand {
             }
             
             Member updatedMember = new Member(currentMember.id(), newName, newEmail, newPhone);
-            MemberService.instance.updateMember(updatedMember);
+            MemberService.instance.update(updatedMember, s-> s.id().equals(currentMember.id()));
             
             showMessage("Member information updated successfully!", false);
             

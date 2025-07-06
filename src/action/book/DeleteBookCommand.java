@@ -12,7 +12,7 @@ public class DeleteBookCommand extends ActionCommand {
 
         String index = getInput("Enter book index");
 
-        Book book = BookService.instance.removeBook(Integer.parseInt(index)-1);
+        Book book = BookService.instance.remove(Integer.parseInt(index)-1);
 
         System.out.println("\n✅ Delete: " + book);
 

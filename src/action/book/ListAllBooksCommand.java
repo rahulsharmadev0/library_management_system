@@ -12,7 +12,7 @@ public class ListAllBooksCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("ALL BOOKS IN LIBRARY");
         
-        List<Book> books = BookService.instance.getBooks();
+        List<Book> books = BookService.instance.getAll();
         
         if (books.isEmpty()) {
             System.out.println("📚 No books found in the library.");
