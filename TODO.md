@@ -3,7 +3,9 @@
     - ✅ Create a generic service base class
     - ✅ Implemement Generic file system plugin
     - Apply some Automation/Code Generation via @annotations
-    - 
+    - Implement Book Issuing & Returning
+    - implement pending featers of book inventory management
+    - Need to optmize command pkg
 
 
 /*
