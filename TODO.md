@@ -1,6 +1,19 @@
 // TODO: 
-    - Create a generic table formatter to eliminate table creation duplication.
-    - Create a generic service base class
+    - ✅ Create a generic table formatter to eliminate table creation duplication.
+    - ✅ Create a generic service base class
+    - ✅ Implemement Generic file system plugin
+    - Apply some Automation/Code Generation via @annotations
+    - 
+
+
+/*
+## Use this technique
+ * Singleton Design pattern
+ * Factory method Design pattern
+ * Command Design pattern
+ * Stratagy Design pattern
+ * Generic Class Design pattern
+ */
 
 Library Management System
 ## Book Inventory Management
