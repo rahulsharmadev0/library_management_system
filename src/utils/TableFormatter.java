@@ -55,10 +55,10 @@ public class TableFormatter<T> {
     private static class ColumnConfig<T> {
         final String header;
         final int width;
-        final Function<T, String> valueExtractor;
+        final Function<T, Object> valueExtractor;
         final Alignment alignment;
         
-        ColumnConfig(String header, int width, Function<T, String> valueExtractor, Alignment alignment) {
+        ColumnConfig(String header, int width, Function<T, Object> valueExtractor, Alignment alignment) {
             this.header = header;
             this.width = width;
             this.valueExtractor = valueExtractor;
@@ -89,11 +89,12 @@ public class TableFormatter<T> {
         return this;
     }
     
-    public TableFormatter<T> addColumn(String header, int width, Function<T, String> valueExtractor) {
+    public TableFormatter<T> addColumn(String header, int width, Function<T, Object> valueExtractor) {
         return addColumn(header, width, valueExtractor, Alignment.LEFT);
     }
     
-    public TableFormatter<T> addColumn(String header, int width, Function<T, String> valueExtractor, Alignment alignment) {
+    
+    public TableFormatter<T> addColumn(String header, int width, Function<T, Object> valueExtractor, Alignment alignment) {
         columns.add(new ColumnConfig<>(header, width, valueExtractor, alignment));
         return this;
     }
@@ -242,7 +243,7 @@ public class TableFormatter<T> {
         
         // Data columns
         for (ColumnConfig<T> column : columns) {
-            String value = column.valueExtractor.apply(item);
+            String value = column.valueExtractor.apply(item).toString();
             line.append(" ");
             line.append(formatCell(value, widths[columnIndex], column.alignment));
             line.append(" ");

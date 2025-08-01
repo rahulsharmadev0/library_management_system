@@ -42,8 +42,8 @@ public class AddBookCommand extends ActionCommand {
             return;
         }
         
-        Book newBook = new Book(title, author, isbn, pages);
-        BookRepository.instance.add(newBook);
+        Book newBook = new Book(0, title, author, isbn, pages);
+        BookRepository.getInstance().insert(newBook);
         showMessage("Book '" + title + "' has been successfully added to the library!", false);
     }
 }

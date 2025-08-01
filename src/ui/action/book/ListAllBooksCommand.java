@@ -21,7 +21,7 @@ public class ListAllBooksCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("ALL BOOKS IN LIBRARY");
         
-        List<Book> books = BookRepository.instance.getAll();
+        List<Book> books = BookRepository.getInstance().getAll();
         
         if (books.isEmpty()) {
             System.out.println("📚 No books found in the library.");

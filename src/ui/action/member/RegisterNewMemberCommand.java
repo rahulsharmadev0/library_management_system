@@ -17,8 +17,14 @@ public class RegisterNewMemberCommand extends ActionCommand {
         }
         
         // Check if member ID already exists
-        if (MemberRepository.instance.findBy(s->s.id().equals(id)).isPresent()) {
-            showMessage("Member with ID '" + id + "' already exists!", true);
+        try {
+            MemberRepository repository = MemberRepository.getInstance();
+            if (repository.findById(Integer.parseInt(id)) != null) {
+                showMessage("Member with ID '" + id + "' already exists!", true);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showMessage("Member ID must be a valid number", true);
             return;
         }
         
@@ -46,8 +52,8 @@ public class RegisterNewMemberCommand extends ActionCommand {
             return;
         }
 
-        Member newMember = new Member(id, name, email, phone);
-        MemberRepository.instance.add(newMember);
+        Member newMember = new Member(0, name, email, phone);
+        MemberRepository.getInstance().insert(newMember);
         showMessage("Member '" + name + "' has been successfully registered!", false);
     }
     

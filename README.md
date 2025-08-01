@@ -1,153 +1,195 @@
 # Library Management System
 
-A comprehensive command-line based Library Management System built in Java that provides functionality for managing books, members, and book issuing operations.
+A modern and robust command-line based Library Management System built in Java with PostgreSQL database integration for efficient library resource management.
 
-## Features
+## 📑 Overview
+
+This Library Management System provides a comprehensive solution for managing library operations including book inventory, member management, and book issuing functionality. The application uses JDBC for database connectivity, ensuring data persistence and reliability.
+
+## ✨ Features
 
 ### 📚 Book Inventory Management
-- ✅ Add new books to the library
-- ✅ Delete books from inventory
-- ✅ Update book details
-- ✅ Search books by title, author, or ID
-- ✅ List all books in the library
-- ✅ Sort books by title, author, or publication year
+- ✅ Add new books with title, author, ISBN, and page count
+- ✅ Update existing book information
+- ✅ Delete books from the library database
+- ✅ List all books with formatted table display
+- ✅ Search books by various criteria
+- ✅ Sort book collections by different attributes
 
-### 👥 Member/User Management
-- ✅ Register new library members
-- ✅ Update member information
+### 👥 Member Management
+- ✅ Register new library members with contact information
+- ✅ Update member details
 - ✅ Delete member records
-- ✅ Search members by ID, name, email, or phone
-- ✅ List all registered members
+- ✅ Advanced search capability (by ID, name, email, phone)
+- ✅ Display member listings in formatted tables
 
-### 📖 Book Issuing & Returning (In Development)
-- 🔄 Issue books to members
-- 🔄 Return books to the library
-- 🔄 Track issue and return dates
-- 🔄 Prevent issuing already issued books
+### 📖 Book Issuing System (In Development)
+- 🔄 Issue books to registered members
+- 🔄 Track book returns
+- 🔄 Monitor due dates
+- 🔄 Manage overdue notifications
 
-## Design Patterns Used
+## 🏗️ Architecture
 
-This project demonstrates the implementation of several design patterns:
+The project employs a clean, layered architecture:
 
-- **Singleton Design Pattern** - For managing single instances of services
-- **Factory Method Design Pattern** - For creating objects without specifying exact classes
-- **Command Design Pattern** - For encapsulating requests as objects
-- **Strategy Design Pattern** - For defining family of algorithms
-- **Generic Class Design Pattern** - For type-safe collections and operations
+- **Domain Layer**: Contains business entities and core logic
+- **Repository Layer**: Handles data access via JDBC
+- **Service Layer**: Manages business operations
+- **UI Layer**: Provides user interface and command handling
 
-## Project Structure
+## 🧩 Design Patterns Implemented
+
+- **Singleton Pattern**: For database connection management
+- **Repository Pattern**: For data access abstraction
+- **Command Pattern**: For encapsulating user actions
+- **Factory Pattern**: For object creation
+- **Strategy Pattern**: For implementing different search algorithms
+
+## 🔧 Technology Stack
+
+- **Language**: Java
+- **Database**: PostgreSQL (with JDBC)
+- **UI**: Command-line interface with formatted text tables
+- **Build Tool**: Manual compilation (VS Code tasks)
+
+## 📁 Project Structure
 
 ```
 library_management_system/
 ├── src/
-│   ├── Main.java                    # Application entry point
+│   ├── Main.java                    # Entry point
 │   ├── domain/
 │   │   ├── entities/                # Data models
+│   │   │   ├── Book.java
+│   │   │   ├── Member.java
+│   │   │   └── Option.java
 │   │   ├── repositories/            # Data access layer
-│   │   └── services/                # Business logic layer
-│   ├── ui/                          # User interface layer
+│   │   │   ├── BookRepository.java
+│   │   │   ├── JdbcRepository.java
+│   │   │   └── MemberRepository.java
+│   │   └── services/                # Business logic
+│   │       └── DataBaseManager.java
+│   ├── ui/                          # User interface
+│   │   ├── AppRoute.java            # Navigation routing
+│   │   ├── Navigator.java           # Screen navigator
 │   │   ├── action/                  # Command implementations
+│   │   │   ├── book/                # Book-related commands
+│   │   │   └── member/              # Member-related commands
 │   │   └── command/                 # Command framework
 │   └── utils/                       # Utility classes
+│       └── TableFormatter.java      # Table display formatting
 ├── bin/                             # Compiled classes
-├── book.dat                         # Book data storage
-├── member.dat                       # Member data storage
+├── lib/                             # External libraries
+│   └── postgresql-42.7.7.jar        # PostgreSQL JDBC driver
 └── README.md
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
-- Java 8 or higher
+- Java 11 or higher
+- PostgreSQL database
 - Command line terminal
+
+### Database Setup
+1. Install PostgreSQL on your system
+2. Create a database named `LMS`
+3. Create the required tables:
+
+```sql
+CREATE TABLE book (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    isbn VARCHAR(20) UNIQUE NOT NULL,
+    pages VARCHAR(10)
+);
+
+CREATE TABLE member (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20)
+);
+```
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/rahulsharmadev0/library_management_system.git
    cd library_management_system
    ```
 
 2. Compile the project:
    ```bash
-   javac -cp src -d bin src/**/*.java
+   javac -cp src:lib/postgresql-42.7.7.jar -d bin src/**/*.java
    ```
 
 3. Run the application:
    ```bash
-   java -cp bin Main
+   java -cp bin:lib/postgresql-42.7.7.jar Main
    ```
 
 ### Using VS Code Tasks
 
-If you're using VS Code, you can use the predefined task to compile the project:
+A VS Code task is configured for easy compilation:
 
-1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
-2. Run `Tasks: Run Task`
-3. Select `Compile Java Project`
+1. Press `Cmd+Shift+P` (macOS) or `Ctrl+Shift+P` (Windows/Linux)
+2. Select `Tasks: Run Task`
+3. Choose `Compile Java Project`
 
-## Usage
+## 🖥️ Usage
 
-Upon running the application, you'll be presented with a main menu offering the following options:
+When you run the application, navigate through the following menus:
 
 1. **Book Inventory Management**
-   - Manage your library's book collection
-   - Add, update, delete, and search for books
+   - Add, update, and delete books
+   - Search and sort book collections
 
 2. **Member Management**
-   - Handle library member operations
-   - Register, update, and manage member information
+   - Register and manage library members
+   - Search for members
 
-3. **Book Issuing & Returning** (Coming Soon)
-   - Issue books to members
-   - Track and manage book returns
+3. **Book Issuing & Returning**
+   - Manage book loans and returns (coming soon)
 
-## Key Components
+## 🛠️ Core Components
 
-### Core Entities
-- **Book**: Represents a book with ISBN, title, author, and other details
-- **Member**: Represents a library member with personal information
-- **Option**: Generic option class for menu selections
+### Database Connection
+The `DataBaseManager` class provides a singleton instance for database connectivity, ensuring efficient connection pooling.
 
-### Services
-- **LocalDB**: Generic file-based database service
-- **BookService**: Business logic for book operations
-- **MemberService**: Business logic for member operations
+### Repositories
+- `JdbcRepository`: Generic base class for database operations
+- `BookRepository`: Handles book-related database operations
+- `MemberRepository`: Manages member data operations
 
 ### UI Framework
-- **Navigator**: Handles application navigation
-- **Command Pattern**: Encapsulates all user actions
-- **TableFormatter**: Generic table formatting utility
+- `Navigator`: Manages application flow and screen transitions
+- `AppRoute`: Defines all available routes in the application
+- `Command`: Base interface for all user actions
 
-## Data Storage
+## 🔜 Future Enhancements
 
-The application uses CSV-based file storage:
-- `book.dat` - Stores book information
-- `member.dat` - Stores member information
+- [ ] Implement book issuing and return functionality
+- [ ] Add user authentication and role-based access
+- [ ] Create transaction history and reporting
+- [ ] Develop a graphical user interface
+- [ ] Implement connection pooling for better performance
+- [ ] Add comprehensive logging
+- [ ] Create database migration tools
 
-Data is automatically persisted when modifications are made.
-
-## Development Roadmap
-
-- [ ] Complete Book Issuing & Returning functionality
-- [ ] Implement automation/code generation via annotations
-- [ ] Optimize command package structure
-- [ ] Add comprehensive unit tests
-- [ ] Implement data validation and error handling
-- [ ] Add configuration management
-
-
-## License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Author
+## 👨‍💻 Author
 
 **Rahul Sharma**
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Built as a demonstration of object-oriented programming principles
-- Implements multiple design patterns for educational purposes
-- Uses clean architecture principles for maintainable code
+- Built as a demonstration of Java JDBC implementation
+- Utilizes design patterns for maintainable and extensible code
+- Showcases clean architecture principles in practice

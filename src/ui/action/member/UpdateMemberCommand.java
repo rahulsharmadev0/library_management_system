@@ -12,7 +12,8 @@ public class UpdateMemberCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("UPDATE MEMBER INFORMATION");
         
-        List<Member> members = MemberRepository.instance.getAll();
+        MemberRepository repository = MemberRepository.getInstance();
+        List<Member> members = repository.getAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");
@@ -65,7 +66,7 @@ public class UpdateMemberCommand extends ActionCommand {
             }
             
             Member updatedMember = new Member(currentMember.id(), newName, newEmail, newPhone);
-            MemberRepository.instance.update(updatedMember, s-> s.id().equals(currentMember.id()));
+            repository.update(updatedMember);
             
             showMessage("Member information updated successfully!", false);
             

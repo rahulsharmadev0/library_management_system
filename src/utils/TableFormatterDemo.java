@@ -23,9 +23,9 @@ public class TableFormatterDemo {
         System.out.println("📚 BOOK TABLE DEMONSTRATION");
         
         List<Book> books = Arrays.asList(
-            new Book("Java Programming", "John Doe", "978-1234567890", "350"),
-            new Book("Database Design", "Jane Smith", "978-0987654321", "280"),
-            new Book("Web Development", "Bob Johnson", "978-1111111111", "420")
+            new Book(0, "Java Programming", "John Doe", "978-1234567890", "350"),
+            new Book(1, "Database Design", "Jane Smith", "978-0987654321", "280"),
+            new Book(2,"Web Development", "Bob Johnson", "978-1111111111", "420")
         );
         
         // Create table with fluent API - one liner configuration!
@@ -42,9 +42,9 @@ public class TableFormatterDemo {
         System.out.println("👥 MEMBER TABLE DEMONSTRATION");
         
         List<Member> members = Arrays.asList(
-            new Member("M001", "Alice Wilson", "alice@email.com", "555-0101"),
-            new Member("M002", "Charlie Brown", "charlie@email.com", "555-0202"),
-            new Member("M003", "Diana Prince", "diana@email.com", "555-0303")
+            new Member(0, "Alice Wilson", "alice@email.com", "555-0101"),
+            new Member(1, "Charlie Brown", "charlie@email.com", "555-0202"),
+            new Member(2, "Diana Prince", "diana@email.com", "555-0303")
         );
         
         // Same clean configuration for different data type
@@ -61,7 +61,7 @@ public class TableFormatterDemo {
         System.out.println("🎨 STYLE VARIATIONS DEMONSTRATION");
         
         List<Book> books = Arrays.asList(
-            new Book("Sample Book", "Author Name", "123-456-789", "200")
+            new Book(0, "Sample Book", "Author Name", "123-456-789", "200")
         );
         
         // Basic style

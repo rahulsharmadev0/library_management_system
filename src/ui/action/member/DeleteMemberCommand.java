@@ -6,14 +6,14 @@ import domain.repositories.MemberRepository;
 
 import java.util.List;
 
-// TODO: Refactor
 public class DeleteMemberCommand extends ActionCommand {
 
     @Override
     protected void performAction() throws Exception {
         displayHeader("DELETE MEMBER");
         
-        List<Member> members = MemberRepository.instance.getAll();
+        MemberRepository repository = MemberRepository.getInstance();
+        List<Member> members = repository.getAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");
@@ -25,7 +25,7 @@ public class DeleteMemberCommand extends ActionCommand {
         System.out.println("📋 Current Members:");
         for (int i = 0; i < members.size(); i++) {
             Member member = members.get(i);
-            System.out.printf("%d. %s (ID: %s, Email: %s, Phone: %s)%n", 
+            System.out.printf("%d. %s (ID: %d, Email: %s, Phone: %s)%n", 
                 i + 1, member.name(), member.id(), member.email(), member.phone());
         }
         System.out.println();
@@ -46,8 +46,12 @@ public class DeleteMemberCommand extends ActionCommand {
             boolean confirmation = confirmAction("Are you sure you want to delete member " + memberToDelete.name());
             
             if (confirmation) {
-                Member deletedMember = MemberRepository.instance.remove(index);
-                showMessage("Member '" + deletedMember.name() + "' has been successfully deleted from the library!", false);
+                int result = repository.delete(memberToDelete.id());
+                if (result > 0) {
+                    showMessage("Member '" + memberToDelete.name() + "' has been successfully deleted from the library!", false);
+                } else {
+                    showMessage("Failed to delete member. Please try again.", true);
+                }
             } else {
                 showMessage("Delete operation cancelled.", false);
             }

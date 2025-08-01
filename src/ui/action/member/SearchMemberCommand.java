@@ -60,9 +60,9 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.instance.getAll();
+            List<Member> members = MemberRepository.getInstance().getAll();
             List<Member> results = members.stream()
-                    .filter(member -> member.id().equalsIgnoreCase(searchTerm))
+                    .filter(member -> String.valueOf(member.id()).equalsIgnoreCase(searchTerm))
                     .collect(Collectors.toList());
 
             SearchMemberCommand.displaySearchResults(results, "ID '" + searchTerm + "'");
@@ -80,7 +80,7 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.instance.getAll();
+            List<Member> members = MemberRepository.getInstance().getAll();
             List<Member> results = members.stream()
                     .filter(member -> member.name().toLowerCase().contains(searchTerm.toLowerCase()))
                     .collect(Collectors.toList());
@@ -100,7 +100,7 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.instance.getAll();
+            List<Member> members = MemberRepository.getInstance().getAll();
             List<Member> results = members.stream()
                     .filter(member -> member.email().toLowerCase().contains(searchTerm.toLowerCase()))
                     .collect(Collectors.toList());
@@ -120,7 +120,7 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.instance.getAll();
+            List<Member> members = MemberRepository.getInstance().getAll();
             List<Member> results = members.stream()
                     .filter(member -> member.phone().contains(searchTerm))
                     .collect(Collectors.toList());

@@ -12,21 +12,25 @@ public class UpdateBookCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("UPDATE BOOK DETAILS");
 
-        String isbn = getInput("Enter Book ISBN to update: ");
-        
-        if (isbn == null || isbn.trim().isEmpty()) {
-            showMessage("ISBN cannot be empty. Operation cancelled.",true);
+        String idStr = getInput("Enter Book ID to update: ");
+
+        if (idStr == null || idStr.trim().isEmpty()) {
+            showMessage("ISBN cannot be empty. Operation cancelled.", true);
             return;
         }
 
         System.out.println("Searching for book...");
-        Optional<Book> bookOptional = BookRepository.instance.findBy(s -> s.isbn().equals(isbn));
-        if (bookOptional.isPresent()) {
-            Book book = bookOptional.get();
-            displayBookDetails(book);
-            updateBookDetails(book);
-        } else {
-            System.out.println("❌ Book not found with ISBN: " + isbn);
+        try {
+            BookRepository repository = BookRepository.getInstance();
+            Book book = repository.findById(Integer.parseInt(idStr));
+            if (book != null) {
+                displayBookDetails(book);
+                updateBookDetails(book, repository);
+            } else {
+                System.out.println("❌ Book not found with ID: " + idStr);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Invalid ID format. Please enter a valid number.");
         }
     }
 
@@ -40,19 +44,19 @@ public class UpdateBookCommand extends ActionCommand {
         System.out.println("-----------------------------------------");
     }
 
-    private void updateBookDetails(Book book) throws Exception {
+    private void updateBookDetails(Book book, BookRepository repository) throws Exception {
         String title = getInput("Enter new title (leave empty to keep current): ");
         String author = getInput("Enter new author (leave empty to keep current): ");
         String page = getInput("Enter new page count (leave empty to keep current): ");
 
         Book updatedBook = new Book(
-            !title.trim().isEmpty() ? title : book.title(),
-            !author.trim().isEmpty() ? author : book.author(),
-            book.isbn(),
-            !page.trim().isEmpty() ? page : book.pages()
-        );
+                book.id(),
+                !title.trim().isEmpty() ? title : book.title(),
+                !author.trim().isEmpty() ? author : book.author(),
+                book.isbn(),
+                !page.trim().isEmpty() ? page : book.pages());
 
-        BookRepository.instance.update(updatedBook, (s)->s.isbn().equals(updatedBook.isbn()));
+        repository.update(updatedBook);
         System.out.println("✅ Book updated successfully!");
     }
 }

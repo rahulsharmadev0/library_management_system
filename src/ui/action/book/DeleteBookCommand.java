@@ -10,11 +10,11 @@ public class DeleteBookCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("Delete Book");
 
-        String index = getInput("Enter book index");
+        String id = getInput("Enter book id");
 
-        Book book = BookRepository.instance.remove(Integer.parseInt(index)-1);
+        //  new BookRepository().delete();
 
-        System.out.println("\n✅ Delete: " + book);
+        // System.out.println("\n✅ Delete: " + book);
 
     }
 }

@@ -12,7 +12,7 @@ public class ListAllMembersCommand extends ActionCommand {
     private static final TableFormatter<Member> MEMBER_TABLE = 
         TableFormatter.<Member>builder("ALL MEMBERS IN LIBRARY")
             .withStyle(TableFormatter.Style.LIGHT)
-            .addColumn("Member ID", 12, Member::id)
+            .addColumn("Member ID", 12,Member::id)
             .addColumn("Name", 20, Member::name)
             .addColumn("Email", 20, Member::email)
             .addColumn("Phone", 15, Member::phone);
@@ -21,7 +21,7 @@ public class ListAllMembersCommand extends ActionCommand {
     protected void performAction() throws Exception {
         displayHeader("ALL MEMBERS IN LIBRARY");
         
-        List<Member> members = MemberRepository.instance.getAll();
+        List<Member> members = MemberRepository.getInstance().getAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");
