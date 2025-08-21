@@ -98,6 +98,10 @@ public class TableFormatter<T> {
         columns.add(new ColumnConfig<>(header, width, valueExtractor, alignment));
         return this;
     }
+    public TableFormatter<T> setTitle(String title) {
+        this.title = title;
+        return this;
+    }
     
     public void display(List<T> data) {
         if (title != null && !title.isEmpty()) {
@@ -286,10 +290,6 @@ public class TableFormatter<T> {
     }
     
     public static <T> TableFormatter<T> create(String title) {
-        return new TableFormatter<>(title);
-    }
-    
-    public static <T> TableFormatter<T> builder(String title) {
         return new TableFormatter<>(title);
     }
 }

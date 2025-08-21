@@ -13,7 +13,7 @@ public class DeleteMemberCommand extends ActionCommand {
         displayHeader("DELETE MEMBER");
         
         MemberRepository repository = MemberRepository.getInstance();
-        List<Member> members = repository.getAll();
+        List<Member> members = repository.findAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");

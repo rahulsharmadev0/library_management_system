@@ -17,7 +17,8 @@ public class Navigator {
         navigator = new Navigator();
     }
 
-    private Navigator() {}
+    private Navigator() {
+    }
 
     /**
      * Navigate to a new command/menu
@@ -33,7 +34,7 @@ public class Navigator {
         if (!navigationStack.isEmpty()) {
             navigationStack.pop();
         }
-        
+
         // If stack is empty, we're at the root - should exit
         if (navigationStack.isEmpty()) {
             exit();
@@ -44,9 +45,9 @@ public class Navigator {
      * Get the current command without removing it from stack
      */
     public AppRoute getCurrentRoute() {
-        if (navigationStack.isEmpty()) {
+        if (navigationStack.isEmpty())
             return null;
-        }
+
         return navigationStack.peek();
     }
 
@@ -78,7 +79,7 @@ public class Navigator {
      */
     public void start(AppRoute initalRoute) {
         navigateTo(initalRoute);
-        
+
         while (isRunning && !navigationStack.isEmpty()) {
             try {
                 Command currentCommand = getCurrentRoute().get();
@@ -95,11 +96,10 @@ public class Navigator {
             } catch (Exception e) {
                 System.err.println("❌ An error occurred: " + e.getMessage());
                 // On error, try to go back or exit if at root
-                if (isAtRoot()) {
+                if (isAtRoot())
                     exit();
-                } else {
+                else
                     goBack();
-                }
             }
         }
     }
@@ -112,4 +112,3 @@ public class Navigator {
         isRunning = true;
     }
 }
-

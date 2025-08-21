@@ -13,7 +13,7 @@ public class UpdateMemberCommand extends ActionCommand {
         displayHeader("UPDATE MEMBER INFORMATION");
         
         MemberRepository repository = MemberRepository.getInstance();
-        List<Member> members = repository.getAll();
+        List<Member> members = repository.findAll();
         
         if (members.isEmpty()) {
             System.out.println("👥 No members found in the library.");

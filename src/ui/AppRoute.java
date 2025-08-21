@@ -27,7 +27,13 @@ public enum AppRoute {
     SearchMemberCommandByEmail(SearchMemberCommand.ByEmail::new),
     SearchMemberCommandById(SearchMemberCommand.ById::new),
     SearchMemberCommandByName(SearchMemberCommand.ByName::new),
-    SearchMemberCommandByPhone(SearchMemberCommand.ByPhone::new);
+    SearchMemberCommandByPhone(SearchMemberCommand.ByPhone::new),
+    SearchBookCommandByTitle(SearchBookCommand.ByTitle::new),
+    SearchBookCommandByAuthor(SearchBookCommand.ByAuthor::new),
+    SearchBookCommandByISBN(SearchBookCommand.ByISBN::new),
+    SortBookCommandByTitle(SortBookCommand.ByTitle::new),
+    SortBookCommandByAuthor(SortBookCommand.ByAuthor::new),
+    SortBookCommandByPages(SortBookCommand.ByPages::new);
 
     protected final Supplier<Command> comSupplier;
 
@@ -99,10 +105,9 @@ class MemberManagementMenu extends MenuViewCommand {
 
 class SortBookMenu extends MenuViewCommand {
     private static final Option[] SORT_OPTIONS = {
-            new Option("Sort by Title (A-Z)", "Sort books alphabetically by title", AppRoute.PlaceHolderCommand),
-            new Option("Sort by Author (A-Z)", "Sort books alphabetically by author", AppRoute.PlaceHolderCommand),
-            new Option("Sort by ISBN", "Sort books by ISBN number", AppRoute.PlaceHolderCommand),
-            new Option("Sort by Pages", "Sort books by number of pages", AppRoute.PlaceHolderCommand),
+            new Option("Sort by Title (A-Z)", "Sort books alphabetically by title", AppRoute.SortBookCommandByTitle),
+            new Option("Sort by Author (A-Z)", "Sort books alphabetically by author", AppRoute.SortBookCommandByAuthor),
+            new Option("Sort by Pages", "Sort books by number of pages", AppRoute.SortBookCommandByPages),
     };
 
     public SortBookMenu() {
@@ -125,10 +130,9 @@ class SearchMemberMenu extends MenuViewCommand {
 
 class SearchBookMenu extends MenuViewCommand {
     private static final Option[] SEARCH_OPTIONS = {
-            new Option("Search by Title", "Find books by title", AppRoute.PlaceHolderCommand),
-            new Option("Search by Author", "Find books by author name", AppRoute.PlaceHolderCommand),
-            new Option("Search by ISBN", "Find books by ISBN number", AppRoute.PlaceHolderCommand),
-            new Option("Advanced Search", "Search by multiple criteria", AppRoute.PlaceHolderCommand),
+            new Option("Search by Title", "Find books by title", AppRoute.SearchBookCommandByTitle),
+            new Option("Search by Author", "Find books by author name", AppRoute.SearchBookCommandByAuthor),
+            new Option("Search by ISBN", "Find books by ISBN number", AppRoute.SearchBookCommandByISBN),
     };
 
     public SearchBookMenu() {

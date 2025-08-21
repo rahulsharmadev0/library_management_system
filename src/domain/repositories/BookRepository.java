@@ -3,11 +3,19 @@ package domain.repositories;
 import java.sql.*;
 import java.util.List;
 
+
+import java.util.Optional;
+
 import domain.entities.Book;
 
 public class BookRepository extends JdbcRepository<Book> {
+    public static final String TABLE_NAME = "book";
     private static BookRepository instance;
-    
+
+    private BookRepository() throws SQLException {
+        super();
+    }
+
     public static BookRepository getInstance() throws SQLException {
         if (instance == null) {
             instance = new BookRepository();
@@ -15,13 +23,9 @@ public class BookRepository extends JdbcRepository<Book> {
         return instance;
     }
 
-    private BookRepository() throws SQLException {
-        super();
-    }
-
-    public Book findById(int id) throws SQLException {
-        List<Book> results = executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE id = ?", id);
-        return results.isEmpty() ? null : results.get(0);
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override
@@ -31,13 +35,7 @@ public class BookRepository extends JdbcRepository<Book> {
                 rs.getString("title"),
                 rs.getString("author"),
                 rs.getString("isbn"),
-                rs.getString("pages"));
-    }
-
-    private static final String TABLE_NAME = "book";
-
-    public List<Book> getAll() throws SQLException {
-        return executeQuery("SELECT * FROM " + TABLE_NAME);
+                rs.getInt("pages"));
     }
 
     public int insert(Book entity) throws SQLException {
@@ -54,5 +52,17 @@ public class BookRepository extends JdbcRepository<Book> {
 
     public int delete(int id) throws SQLException {
         return executeUpdate("DELETE FROM " + TABLE_NAME + " WHERE id = ?", id);
+    }
+
+    public List<Book> findByAuthor(String author) throws SQLException {
+        return executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE author = ?", author);
+    }
+
+    public List<Book> findByTitle(String title) throws SQLException {
+        return executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE title LIKE ?", "%" + title + "%");
+    }
+
+    public Optional<Book> findByIsbn(String isbn) throws SQLException {
+        return findOne("SELECT * FROM " + TABLE_NAME + " WHERE isbn = ?", isbn);
     }
 }

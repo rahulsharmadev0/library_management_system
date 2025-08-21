@@ -14,7 +14,11 @@ public abstract class ActionCommand implements Command {
         this.scanner = new Scanner(System.in);
    }
 
-    protected void showMessage(String message, boolean isError) {
+   protected void showMessage(String message) {
+          System.out.println(message);
+    }
+
+   protected void showMessage(String message, boolean isError) {
         String icon = isError ? "❌" : "✅";
         System.out.println("\n" + icon + " " + message);
     }
@@ -37,9 +41,20 @@ public abstract class ActionCommand implements Command {
         return " ".repeat(padding) + text + " ".repeat(width - text.length() - padding);
     }
 
+    
+
     protected String getInput(String prompt) {
+        return getInput(prompt, false);
+    }
+    
+    protected String getInput(String prompt, boolean loop) {
         System.out.print("👉 " + prompt + ": ");
-        return scanner.nextLine().trim();
+        String input =  scanner.nextLine().trim();
+        if (input.isEmpty()) {
+            showMessage("Input cannot be empty", true);
+            return loop ? getInput(prompt, loop) : null;
+        }
+        return input;
     }
     
     protected String getInput() {

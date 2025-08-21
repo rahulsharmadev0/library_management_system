@@ -1,8 +1,7 @@
 package ui.action.book;
 
-import ui.command.ActionCommand;
-import domain.entities.Book;
 import domain.repositories.BookRepository;
+import ui.command.ActionCommand;
 
 public class DeleteBookCommand extends ActionCommand {
 
@@ -11,10 +10,13 @@ public class DeleteBookCommand extends ActionCommand {
         displayHeader("Delete Book");
 
         String id = getInput("Enter book id");
+        if (id != null) {
+            BookRepository.getInstance().delete(Integer.parseInt(id));
 
-        //  new BookRepository().delete();
+            showMessage("Book with ID " + id + " has been deleted successfully.", false);
 
-        // System.out.println("\n✅ Delete: " + book);
+            System.out.println("📚 Book deleted successfully.");
+        }
 
     }
 }

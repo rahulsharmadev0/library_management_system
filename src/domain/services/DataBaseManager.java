@@ -1,11 +1,11 @@
 package domain.services;
-
 import java.sql.*;
 
 public class DataBaseManager {
-    private static final String URL = "jdbc:postgresql://ep-sparkling-fog-a1kx2q3d-pooler.ap-southeast-1.aws.neon.tech/LMS?sslmode=require&channel_binding=require";
-    private static final String USERNAME = "neondb_owner";
-    private static final String PASSWORD = "npg_fz5gM1BmuNFA";
+    // Local Docker PostgreSQL configuration
+    private static final String URL = "jdbc:postgresql://localhost:5432/library_management_system";
+    private static final String USERNAME = "lms_user";
+    private static final String PASSWORD = "lms_password";
 
     private Connection connection;
 
@@ -15,7 +15,7 @@ public class DataBaseManager {
             this.connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("✅ Connected to PostgreSQL database!");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("PostgreSQL driver not found", e);
+            throw new SQLException("PostgreSQL driver not found. Make sure postgresql-42.7.7.jar is in the classpath.", e);
         }
     }
 

@@ -3,9 +3,7 @@ package ui.action.member;
 import ui.command.ActionCommand;
 import domain.entities.Member;
 import domain.repositories.MemberRepository;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchMemberCommand {
 
@@ -21,32 +19,9 @@ public class SearchMemberCommand {
             return;
         }
 
-        System.out.printf("👤 Found %d member(s):%n%n", results.size());
-
-        // Table header
-        System.out.println("┌─────┬──────────────┬──────────────────────┬──────────────────────┬─────────────────┐");
-        System.out.printf("│ %-3s │ %-12s │ %-20s │ %-20s │ %-15s │%n", "No.", "Member ID", "Name", "Email", "Phone");
-        System.out.println("├─────┼──────────────┼──────────────────────┼──────────────────────┼─────────────────┤");
-
-        // Table rows
-        for (int i = 0; i < results.size(); i++) {
-            Member member = results.get(i);
-            System.out.printf("│ %-3d │ %-12s │ %-20s │ %-20s │ %-15s │%n",
-                    i + 1,
-                    member.id(),
-                    truncateString(member.name(), 20),
-                    truncateString(member.email(), 20),
-                    truncateString(member.phone(), 15));
-        }
-
-        System.out.println("└─────┴──────────────┴──────────────────────┴──────────────────────┴─────────────────┘");
-    }
-
-    protected static String truncateString(String str, int length) {
-        if (str.length() <= length) {
-            return str;
-        }
-        return str.substring(0, length - 3) + "...";
+        Member.getTableFormat()
+                .setTitle("👤 Found " + results.size() + " member(s)")
+                .display(results);
     }
 
     public static class ById extends ActionCommand {
@@ -55,17 +30,17 @@ public class SearchMemberCommand {
             displayHeader("SEARCH MEMBER BY ID");
 
             String searchTerm = getInput("Enter member ID to search");
-            if (searchTerm.isEmpty()) {
+            if (searchTerm.isEmpty() || !searchTerm.matches("\\d+")) {
                 showMessage("Search term cannot be empty", true);
                 return;
             }
 
-            List<Member> members = MemberRepository.getInstance().getAll();
-            List<Member> results = members.stream()
-                    .filter(member -> String.valueOf(member.id()).equalsIgnoreCase(searchTerm))
-                    .collect(Collectors.toList());
+            MemberRepository.getInstance()
+                    .findById(Integer.parseInt(searchTerm))
+                    .ifPresent(value -> SearchMemberCommand.displaySearchResults(
+                            List.of(value),
+                            "ID '" + searchTerm + "'"));
 
-            SearchMemberCommand.displaySearchResults(results, "ID '" + searchTerm + "'");
         }
     }
 
@@ -80,12 +55,9 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.getInstance().getAll();
-            List<Member> results = members.stream()
-                    .filter(member -> member.name().toLowerCase().contains(searchTerm.toLowerCase()))
-                    .collect(Collectors.toList());
-
-            SearchMemberCommand.displaySearchResults(results, "name containing '" + searchTerm + "'");
+            SearchMemberCommand.displaySearchResults(
+                    MemberRepository.getInstance().findByName(searchTerm),
+                    "name containing '" + searchTerm + "'");
         }
     }
 
@@ -100,12 +72,9 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.getInstance().getAll();
-            List<Member> results = members.stream()
-                    .filter(member -> member.email().toLowerCase().contains(searchTerm.toLowerCase()))
-                    .collect(Collectors.toList());
-
-            SearchMemberCommand.displaySearchResults(results, "email containing '" + searchTerm + "'");
+            SearchMemberCommand.displaySearchResults(
+                    MemberRepository.getInstance().findByEmail(searchTerm),
+                    "email containing '" + searchTerm + "'");
         }
     }
 
@@ -120,12 +89,9 @@ public class SearchMemberCommand {
                 return;
             }
 
-            List<Member> members = MemberRepository.getInstance().getAll();
-            List<Member> results = members.stream()
-                    .filter(member -> member.phone().contains(searchTerm))
-                    .collect(Collectors.toList());
-
-            SearchMemberCommand.displaySearchResults(results, "phone containing '" + searchTerm + "'");
+            SearchMemberCommand.displaySearchResults(
+                    MemberRepository.getInstance().findByPhone(searchTerm),
+                    "phone containing '" + searchTerm + "'");
         }
     }
 }

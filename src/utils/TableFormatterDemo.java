@@ -23,13 +23,13 @@ public class TableFormatterDemo {
         System.out.println("📚 BOOK TABLE DEMONSTRATION");
         
         List<Book> books = Arrays.asList(
-            new Book(0, "Java Programming", "John Doe", "978-1234567890", "350"),
-            new Book(1, "Database Design", "Jane Smith", "978-0987654321", "280"),
-            new Book(2,"Web Development", "Bob Johnson", "978-1111111111", "420")
+            new Book(0, "Java Programming", "John Doe", "978-1234567890", 350),
+            new Book(1, "Database Design", "Jane Smith", "978-0987654321", 280),
+            new Book(2,"Web Development", "Bob Johnson", "978-1111111111", 420)
         );
         
         // Create table with fluent API - one liner configuration!
-        TableFormatter.<Book>builder("LIBRARY BOOKS")
+        TableFormatter.<Book>create("LIBRARY BOOKS")
             .withStyle(TableFormatter.Style.LIGHT)
             .addColumn("Title", 18, Book::title)
             .addColumn("Author", 15, Book::author)
@@ -48,7 +48,7 @@ public class TableFormatterDemo {
         );
         
         // Same clean configuration for different data type
-        TableFormatter.<Member>builder("REGISTERED MEMBERS")
+        TableFormatter.<Member>create("REGISTERED MEMBERS")
             .withStyle(TableFormatter.Style.LIGHT)
             .addColumn("ID", 8, Member::id, TableFormatter.Alignment.CENTER)
             .addColumn("Name", 15, Member::name)
@@ -61,7 +61,7 @@ public class TableFormatterDemo {
         System.out.println("🎨 STYLE VARIATIONS DEMONSTRATION");
         
         List<Book> books = Arrays.asList(
-            new Book(0, "Sample Book", "Author Name", "123-456-789", "200")
+            new Book(0, "Sample Book", "Author Name", "123-456-789", 200)
         );
         
         // Basic style
