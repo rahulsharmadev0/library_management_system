@@ -10,7 +10,7 @@ import com.library_management_system.app.ui.adapters.commands.*;
 
 public enum AppRoute {
     BookIssuingMenu(BookIssuingMenu::new),
-    MainMenu(com.library_management_system.app.ui.MainMenu::new),
+    MainMenu(MainMenu::new),
     BookInventoryMenu(BookInventoryMenu::new),
     MemberManagementMenu(MemberManagementMenu::new),
     SearchBookMenu(SearchBookMenu::new),

@@ -1,54 +1,42 @@
 package com.library_management_system.app.ui;
 
-import java.util.Stack;
-
+import java.util.ArrayDeque;
+import lombok.NoArgsConstructor;
 import com.library_management_system.app.ui.utils.MenuViewCommand;
 import com.library_management_system.app.ui.adapters.commands.Command;
 
+@NoArgsConstructor
 public class Navigator {
-    private Stack<AppRoute> navigationStack = new Stack<>();
-    private static Navigator navigator = null;
+    private ArrayDeque<AppRoute> navigationStack = new ArrayDeque<>();
+    private static Navigator INSTANCE = new Navigator();
     private boolean isRunning = true;
 
-    public static Navigator getNavigator() {
-        return navigator;
-    }
-
-    public static void initialize() {
-        navigator = new Navigator();
-    }
-
-    private Navigator() {
+    public static Navigator get() {
+        return INSTANCE;
     }
 
     /**
      * Navigate to a new command/menu
      */
     public void navigateTo(AppRoute route) {
-        navigationStack.push(route);
+       if(route!=null) navigationStack.push(route);
     }
 
     /**
      * Go back to the previous menu
      */
     public void goBack() {
-        if (!navigationStack.isEmpty()) {
-            navigationStack.pop();
-        }
+        // Pop current command
+        if (!navigationStack.isEmpty()) navigationStack.pop();
 
         // If stack is empty, we're at the root - should exit
-        if (navigationStack.isEmpty()) {
-            exit();
-        }
+        if (navigationStack.isEmpty()) exit();
     }
 
     /**
      * Get the current command without removing it from stack
      */
     public AppRoute getCurrentRoute() {
-        if (navigationStack.isEmpty())
-            return null;
-
         return navigationStack.peek();
     }
 

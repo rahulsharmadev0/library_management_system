@@ -24,7 +24,7 @@ public abstract class MenuViewCommand extends ActionCommand {
                 .execute(inputs -> {
                     try {
                         int choice = (Integer) inputs[0];
-                        Navigator navigator = Navigator.getNavigator();
+                        Navigator navigator = Navigator.get();
 
                         // Calculate total options including navigation
                         int totalOptions = options.length + (navigator.isAtRoot() ? 1 : 2);
@@ -80,7 +80,7 @@ public abstract class MenuViewCommand extends ActionCommand {
         while (i < options.length)
             System.out.println(i + 1 + ". " + options[i++].title());
 
-        if (!Navigator.getNavigator().isAtRoot()) {
+        if (!Navigator.get().isAtRoot()) {
             System.out.println(++i + "🔙 Go Back");
 
             System.out.println(++i + "🚪 Exit");
